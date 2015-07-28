@@ -1,0 +1,49 @@
+{
+
+  "Description" : "First Template, testing out each section",
+
+ 
+
+  "Parameters" : {
+     "KeyName": {
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+    },
+
+    "Subnet" : {
+      "Type" : "AWS::EC2::Subnet::Id",
+      "Description" : "Please select a SubnetId"
+    }
+  },
+
+  "Mappings" : {
+    
+  },
+
+  "Conditions" : {
+    
+  },
+
+  "Resources" : {
+    
+   "NewServer": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-955552a5",
+                "InstanceType": "t2.micro",
+                "KeyName" : { "Ref" : "KeyName" },
+                "SubnetId" : {"Ref" : "Subnet"}
+                
+                
+            }
+        }
+
+    },
+  
+
+  "Outputs" : {
+   
+  }
+}
+
