@@ -1,0 +1,63 @@
+{
+    "Outputs": {
+        "InstanceAccess": {
+            "Description": "Command to use to SSH to instance",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "ssh -i ",
+                        {
+                            "Ref": "KeyName"
+                        },
+                        " ubuntu@",
+                        {
+                            "Fn::GetAtt": [
+                                "Ec2Instance",
+                                "PublicDnsName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "KeyName": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "Subnets": {
+            "Description": "The list of SubnetIds, for at least two Availability Zones in the region in your Virtual Private Cloud (VPC)",
+            "Type": "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Resources": {
+        "Ec2Instance": {
+            "Properties": {
+                "ImageId": "ami-9f9aa0af",
+                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "SubnetId": {
+                    "Ref": "Subnets"
+                },
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "yum update",
+                                "sudo yum install httpd -y"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Type": "AWS::EC2::Instance"
+        }
+    }
+}

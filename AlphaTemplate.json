@@ -30,7 +30,7 @@
    "NewServer": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
-                "ImageId": "ami-955552a5",
+                "ImageId": "ami-ebadaedb",
                 "InstanceType": "t2.micro",
                 "KeyName" : { "Ref" : "KeyName" },
                 "SubnetId" : {"Ref" : "Subnet"}

@@ -1,0 +1,49 @@
+{
+    "Outputs": {
+        "InstanceAccess": {
+            "Description": "Command to use to SSH to instance",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "ssh -i ",
+                        {
+                            "Ref": "KeyName"
+                        },
+                        " ubuntu@",
+                        {
+                            "Fn::GetAtt": [
+                                "MyInstance",
+                                "PublicDnsName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "KeyName": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "Subnets": {
+            "Description": "The list of SubnetIds, for at least two Availability Zones in the region in your Virtual Private Cloud (VPC)",
+            "Type": "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Resources": {
+        "MyInstance": {
+            "Properties": {
+                "ImageId": "ami-955552a5",
+                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "SubnetId" : {"Ref" : "Subnets"}
+            },
+            "Type": "AWS::EC2::Instance"
+        }
+    }
+}
